@@ -1,98 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:avatar_glow/avatar_glow.dart';
+import 'package:firebase_core/firebase_core.dart';
+// import 'package:jobserv/Screens/Login/login_screen.dart';
+import 'package:jobserv/Screens/Welcome/home_page.dart';
 
-void main() {
+// import 'Screens/Welcome/welcome_screen.dart';
+import 'constants.dart';
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  
+  final _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SpeechScreen(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class SpeechScreen extends StatefulWidget {
-  @override
-  _SpeechScreenState createState() => _SpeechScreenState();
-}
-
-class _SpeechScreenState extends State<SpeechScreen> {
-  stt.SpeechToText _speech = stt.SpeechToText();
-  bool _isListening = false;
-  String _textSpeech = 'Press the button to start speaking';
-
-  void onListen() async {
-    if (!_isListening) {
-      bool available = await _speech.initialize(
-        onStatus: (val) => print('onStatus: $val'),
-        onError: (val) => print('onError: $val')
-      );
-      if (available) {
-        setState(() {
-          _isListening = true;
-        });
-        _speech.listen(
-          onResult: (val) => setState((){
-            _textSpeech = val.recognizedWords;
-          })
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Auth',
+          theme: ThemeData(
+            primaryColor: kPrimaryLightColor,
+            scaffoldBackgroundColor: Colors.white,
+          ),
+          home: HomePage(),
         );
       }
-    }else{
-      setState(() {
-        _isListening = false;
-        _speech.stop();
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _speech = stt.SpeechToText();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Speech To Text'),),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AvatarGlow(
-        animate: _isListening,
-        glowColor: Theme.of(context).primaryColor,
-        endRadius: 80,
-        duration: Duration(milliseconds: 2000),
-        repeatPauseDuration: Duration(milliseconds: 100),
-        repeat: true,
-        child: FloatingActionButton(
-          onPressed: () => onListen(),
-          child: Icon(_isListening ? Icons.mic : Icons.mic_none),
-        ),
-      ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Container(
-          padding: EdgeInsets.fromLTRB(25, 25, 25, 150),
-          child: Text(
-            _textSpeech,
-            style: TextStyle(
-              fontSize: 32,
-              color: Colors.black,
-              fontWeight: FontWeight.w500
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

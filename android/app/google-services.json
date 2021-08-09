@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "716357233684",
+    "project_id": "job-service-uqcu",
+    "storage_bucket": "job-service-uqcu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716357233684:android:cc409625e0d36253ba4b01",
+        "android_client_info": {
+          "package_name": "com.example.jobserv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716357233684-4n3ui0lfhvlv1qpq5gern1tpvqjh0dff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe5ZauepJtSyzWO_0eCC0539COZ2KnyoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716357233684-4n3ui0lfhvlv1qpq5gern1tpvqjh0dff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
